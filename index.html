@@ -33,17 +33,29 @@
     <script>
     document.addEventListener("DOMContentLoaded", function() {
         fetch('https://johnny-api.vercel.app/api/courses')
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok: ' + response.statusText);
+                }
+                return response.json();
+            })
             .then(courses => {
                 const container = document.getElementById('courses-container');
-                courses.forEach(course => {
-                    const courseDiv = document.createElement('div');
-                    courseDiv.className = 'course';
-                    courseDiv.innerHTML = `<h3>${course.title.rendered}</h3><p>${course.content.rendered}</p>`;
-                    container.appendChild(courseDiv);
-                });
+                if (courses.length === 0) {
+                    container.innerHTML = '<p>No courses available at this time.</p>';
+                } else {
+                    courses.forEach(course => {
+                        const courseDiv = document.createElement('div');
+                        courseDiv.className = 'course';
+                        courseDiv.innerHTML = `<h3>${course.title.rendered}</h3><p>${course.content.rendered || 'No description available.'}</p>`;
+                        container.appendChild(courseDiv);
+                    });
+                }
             })
-            .catch(error => console.error('Error fetching courses:', error));
+            .catch(error => {
+                console.error('Error fetching courses:', error);
+                document.getElementById('courses-container').innerHTML = '<p>Error loading courses. Please check the console for more details.</p>';
+            });
     });
     </script>
 </body>
