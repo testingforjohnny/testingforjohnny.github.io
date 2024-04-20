@@ -1,22 +1,50 @@
----
-layout: default
-title: John's Maths Academy
----
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>John's Academy Courses</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            padding: 0;
+        }
+        .course {
+            margin-bottom: 15px;
+            border-bottom: 1px solid #cccccc;
+            padding-bottom: 10px;
+        }
+        h1 {
+            color: #2c3e50;
+        }
+        p {
+            color: #34495e;
+        }
+    </style>
+</head>
+<body>
+    <h1>John's Academy Courses</h1>
+    <div id="courses-container">
+        <!-- Courses will be loaded here -->
+    </div>
 
-# Welcome to John's Maths Academy
-Unlock your potential with top-tier maths education.
-
-## About Us
-John's Maths Academy has been providing excellent maths tuition to students of all levels for over a decade, helping them achieve their best potential in various examinations and academic challenges.
-
-## Our Courses
-Explore our range of courses designed to cater to different age groups and skill levels:
-- Beginner Maths for Kids
-- Intermediate School Mathematics
-- Advanced Calculus and Algebra
-
-## What Our Students Say
->"John's Maths Academy helped me excel in my final school year and secure a place in my desired university!" - Jane Doe
-
-## Contact Us
-Email us at [info@test.com](mailto:info@test.com) or call us at (123) 456-7890.
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        fetch('https://your-project.vercel.app/api/courses')
+            .then(response => response.json())
+            .then(courses => {
+                const container = document.getElementById('courses-container');
+                courses.forEach(course => {
+                    const courseDiv = document.createElement('div');
+                    courseDiv.className = 'course';
+                    courseDiv.innerHTML = `<h3>${course.title.rendered}</h3><p>${course.content.rendered}</p>`;
+                    container.appendChild(courseDiv);
+                });
+            })
+            .catch(error => console.error('Error fetching courses:', error));
+    });
+    </script>
+</body>
+</html>
