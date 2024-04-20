@@ -35,7 +35,7 @@
         fetch('https://johnny-api.vercel.app/api/courses')
             .then(response => {
                 if (!response.ok) {
-                    throw new Error('Network response was not ok: ' + response.statusText);
+                    throw new Error('Failed to fetch: ' + response.status + ' ' + response.statusText);
                 }
                 return response.json();
             })
@@ -54,9 +54,10 @@
             })
             .catch(error => {
                 console.error('Error fetching courses:', error);
-                document.getElementById('courses-container').innerHTML = '<p>Error loading courses. Please check the console for more details.</p>';
+                document.getElementById('courses-container').innerHTML = `<p>Error loading courses: ${error.message}</p>`;
             });
     });
+
     </script>
 </body>
 </html>
